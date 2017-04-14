@@ -1,0 +1,78 @@
+{
+  "template": "twitter-*",
+  "settings": {
+    "number_of_shards": 4,
+    "number_of_replicas": 0,
+    "refresh_interval": "10s",
+    "index": {
+      "analysis": {
+        "tokenizer": {
+          "kuromoji": {
+            "type": "kuromoji_tokenizer"
+          }
+        },
+        "analyzer": {
+          "japanese": {
+            "type": "custom",
+            "tokenizer": "kuromoji"
+          }
+        }
+      }
+    }
+  },
+  "mappings": {
+    "_default_": {
+      "dynamic_templates": [
+        {
+          "keyword_template": {
+            "match": "*",
+            "mapping": {
+              "type": "Keyword",
+              "index": "not_analyzed"
+            },
+            "match_mapping_type": "Keyword"
+          }
+        }
+      ],
+      "properties": {
+        "host": {
+          "type": "keyword"
+        },
+        "id": {
+          "type": "long"
+        },
+        "lang": {
+          "type": "keyword"
+        },
+        "source": {
+          "type": "keyword"
+        },
+        "tag": {
+          "type": "keyword"
+        },
+        "text": {
+          "type": "text",
+          "analyzer": "japanese"
+        },
+        "timestamp": {
+          "type": "date"
+        },
+        "twitter_url": {
+          "type": "keyword"
+        },
+        "user_id": {
+          "type": "long"
+        },
+        "user_lang": {
+          "type": "keyword"
+        },
+        "user_name": {
+          "type": "keyword"
+        },
+        "user_screen_name": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

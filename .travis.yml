@@ -1,0 +1,27 @@
+dist: trusty
+sudo: required
+services:
+  - docker
+
+env:
+  global:
+  - DOCKER_VERSION=1.13.1-0~ubuntu-trusty
+  matrix:
+  - TEST_TARGET: fluent-mackerel
+  - TEST_TARGET: fluent-split
+  - TEST_TARGET: fluent-twitter
+
+before_install:
+  # list docker-engine versions
+  - apt-cache madison docker-engine
+  # upgrade docker-engine to specific version
+  - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y --force-yes docker-engine=${DOCKER_VERSION}
+  - docker version
+  - docker info
+
+script:
+  - make $TEST_TARGET
+
+notifications:
+  slack:
+    secure: lZMxnyw5Y0+lcSv05rYwljlpLcWHZMp7ZUvgUyWbGRX3SVO46m0r1bmN9Oo2vOW3prkgAy6sV4Qq600ADuphZhmJD13tmnM7g9PPdFgxi/vw5aim8GB+hMy9BqX6UzIBv9QBfOY616LCFyQRdYM8LYsuYEDPzMMCgLfkDnRCGMtK5T7ezVSoFMitVXOJ+Ovgi0FJD0ESX9l8nV5s9ryhGm2+obpx4bvEuKPmwQBggG7zmmE94grMeC/FJSbb+PaPtJfScduED5TthUIig9f6F0m/o1Tcxg9VhIM9dcVDHWnzxP0sf4RiD/DmQSoCRBtNfmDO2lZQFFvq+R5Au1EsZCC/qtGegevbYwbTzy7hYSNgJoeZeF5oO5Zsk1RzEC91eU9E+XgjCl2bkh2ASHItwWZTzh3Ewxj5zm43ltJYgDEw8fvoh32nLQoX1NxIS/M2REnhKX9/4fcbLIo36qt6p4RERZTkeqb12xOlf7q4l4iz302b1rrXxHhe1SLqZaSYDH8P/Za3BMFNlmfd5DXnXiMI85Ra9MIofixhiibd76h0pPleKAmglho1idydVmHHwx1QPry7wNdDAIWpwvwEw1glqN3BfaHfxbKAw15Rwn0hEty6IRpKy1/QZF01UhQ16q176m8//zw1xC243Jjt0+iD5V4/A3AG3DTJ1BhN5S4=
