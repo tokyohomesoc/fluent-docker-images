@@ -24,7 +24,8 @@ RUN \
 			ruby-dev \
 			build-base \
 			libcurl \
-	&& chown -R fluent:fluent /fluentd/etc/ \
+	&& chown -R fluent:fluent /fluentd/etc \
+	&& chown -R fluent:fluent /home/fluent \
 	\
 	&& gem install eventmachine --no-ri --no-rdoc \
 	&& gem install fluent-plugin-twitter -v='0.5.4' --no-ri --no-rdoc \
@@ -39,5 +40,5 @@ RUN \
 COPY /conf.d /fluentd/etc/conf.d/
 COPY /fluent.conf /fluentd/etc/
 
-# USER fluent
+USER fluent
 CMD exec fluentd -c /fluentd/etc/$FLUENTD_CONF -p /fluentd/plugins $FLUENTD_OPT
