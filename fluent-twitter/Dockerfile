@@ -39,5 +39,5 @@ RUN \
 COPY /conf.d /fluentd/etc/conf.d/
 COPY /fluent.conf /fluentd/etc/
 
-USER fluent
+# USER fluent
 CMD exec fluentd -c /fluentd/etc/$FLUENTD_CONF -p /fluentd/plugins $FLUENTD_OPT
